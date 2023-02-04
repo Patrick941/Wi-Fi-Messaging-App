@@ -14,6 +14,7 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.example.messagingapp.databinding.ActivityFullscreenBinding
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 class FullscreenActivity : AppCompatActivity() {
@@ -27,7 +28,7 @@ class FullscreenActivity : AppCompatActivity() {
         Log.i("MyTag", "Program Created")
         setContentView(R.layout.activity_fullscreen)
         val send = findViewById<Button>(R.id.SendButton)
-        val wifiButton = findViewById<Button>(R.id.WiFiButton)
+        val wifiButton = findViewById<FloatingActionButton>(R.id.WiFiButton)
         val message = findViewById<TextView>(R.id.TextBox)
         send.setOnClickListener{
             messageToSend = message.text.toString()
