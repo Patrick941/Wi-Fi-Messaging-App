@@ -69,14 +69,14 @@
         app:layout_constraintVertical_bias="0.335">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/UserNameCard"
+            android:id="@+id/MessageCard"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="10"
             app:cardBackgroundColor="@color/TextBox">
 
             <EditText
-                android:id="@+id/UserNameText"
+                android:id="@+id/MessageText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:ems="10"

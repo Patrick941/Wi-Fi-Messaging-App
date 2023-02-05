@@ -1,39 +1,42 @@
 package com.example.messagingapp
 
-import androidx.appcompat.app.AppCompatActivity
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.appcompat.app.AppCompatActivity
 
 
 class FullscreenActivity : AppCompatActivity() {
 
     private val thisName = "MainActivity"
     private var messageToSend= "Nothing"
-    private var connected = false
+
+    private lateinit var receiverUser : User
+    private lateinit var senderUser : User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.i("MyTag", "Program Created")
         setContentView(R.layout.activity_fullscreen)
+
         val send = findViewById<Button>(R.id.SendButton)
-        val wifiButton = findViewById<FloatingActionButton>(R.id.WiFiButton)
-        val message = findViewById<TextView>(R.id.UserNameText)
+        val message = findViewById<TextView>(R.id.MessageText)
+
+        val messaging = MessageSendClass()
+
+        receiverUser = intent.getSerializableExtra("ReceiverUser") as User
+        senderUser = intent.getSerializableExtra("SenderUser") as User
+
+        //receiverUser = (intent.extras?.getSerializable("ReceiverUser") ?: null) as User
+        //senderUser = (intent.extras?.getSerializable("SenderUser") ?: null) as User
+
         send.setOnClickListener{
             messageToSend = message.text.toString()
             message.text = ""
+            messaging.sendMessage(messageToSend, senderUser?.uid, receiverUser?.uid)
+
             Log.i("MyTag", "Sending Message \"$messageToSend\" ")
-        }
-        wifiButton.setOnClickListener{
-            if(connected){
-                Log.i("MyTag", "Connected To Wi-Fi")
-            }
-            else{
-                Log.i("MyTag", "Not Connected To Wi-Fi")
-            }
         }
     }
 

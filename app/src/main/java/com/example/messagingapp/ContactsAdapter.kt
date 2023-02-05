@@ -32,11 +32,11 @@ class ContactsAdapter(private val context: ContactsActivity, private val userLis
             }
             if (user != null) {
                 Log.i("MyTag", "Opening chat between ${user.nick} and ${userList[position].nick}")
+                val intent = Intent(context, FullscreenActivity::class.java)
+                intent.putExtra("ReceiverUser", userList[position])
+                intent.putExtra("SenderUser", user)
+                context.startActivity(intent)
             }
-            val intent = Intent(context, FullscreenActivity::class.java)
-            intent.putExtra("OtherEndUser", userList[position])
-            intent.putExtra("CurrentUser", user)
-            context.startActivity(intent)
         }
     }
 

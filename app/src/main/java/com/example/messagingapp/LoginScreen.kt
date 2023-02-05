@@ -39,7 +39,7 @@ class LoginScreen : AppCompatActivity() {
         signUpButton = findViewById(R.id.SignUpButton)
         logInButton = findViewById(R.id.LogInButton)
         password = findViewById(R.id.PasswordText)
-        username = findViewById(R.id.UserNameText)
+        username = findViewById(R.id.MessageText)
         nickname = findViewById(R.id.NickNameText)
 
         sharedFile = getSharedPreferences("my_sf", MODE_PRIVATE)
