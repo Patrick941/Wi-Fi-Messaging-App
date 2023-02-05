@@ -1,19 +1,11 @@
 package com.example.messagingapp
 
 import androidx.appcompat.app.AppCompatActivity
-import android.annotation.SuppressLint
-import android.os.Build
+import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
-import android.view.MotionEvent
-import android.view.View
-import android.view.WindowInsets
 import android.widget.Button
-import android.widget.LinearLayout
 import android.widget.TextView
-import com.example.messagingapp.databinding.ActivityFullscreenBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
@@ -29,7 +21,7 @@ class FullscreenActivity : AppCompatActivity() {
         setContentView(R.layout.activity_fullscreen)
         val send = findViewById<Button>(R.id.SendButton)
         val wifiButton = findViewById<FloatingActionButton>(R.id.WiFiButton)
-        val message = findViewById<TextView>(R.id.TextBox)
+        val message = findViewById<TextView>(R.id.UserNameText)
         send.setOnClickListener{
             messageToSend = message.text.toString()
             message.text = ""
@@ -42,6 +34,8 @@ class FullscreenActivity : AppCompatActivity() {
             else{
                 Log.i("MyTag", "Not Connected To Wi-Fi")
             }
+            val name = Intent(this, LoginScreen::class.java)
+            startActivity(name)
         }
     }
 
