@@ -34,8 +34,6 @@ class FullscreenActivity : AppCompatActivity() {
             else{
                 Log.i("MyTag", "Not Connected To Wi-Fi")
             }
-            val name = Intent(this, LoginScreen::class.java)
-            startActivity(name)
         }
     }
 

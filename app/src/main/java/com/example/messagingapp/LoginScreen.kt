@@ -2,15 +2,13 @@ package com.example.messagingapp
 
 import android.content.Intent
 import android.content.SharedPreferences
-import android.media.MediaCodec.MetricsConstants.MODE
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import org.w3c.dom.Text
-import java.sql.Types.NULL
+import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
 
 class LoginScreen : AppCompatActivity() {
 
@@ -19,32 +17,90 @@ class LoginScreen : AppCompatActivity() {
     private lateinit var sharedFile:SharedPreferences
     private lateinit var editor:SharedPreferences.Editor
 
-    private lateinit var confirmButton : Button
+    private lateinit var signUpButton : Button
     private lateinit var password : TextView
     private lateinit var username : TextView
+    private lateinit var logInButton : Button
+
+    private lateinit var mAuth : FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.i("MyTag", "Program Created")
         setContentView(R.layout.activity_login_screen)
 
-        confirmButton = findViewById<Button>(R.id.ConfirmButton)
-        password = findViewById<TextView>(R.id.PasswordText)
-        username = findViewById<TextView>(R.id.UserNameText)
+        mAuth = FirebaseAuth.getInstance()
+
+        signUpButton = findViewById(R.id.SignUpButton)
+        logInButton = findViewById(R.id.LogInButton)
+        password = findViewById(R.id.PasswordText)
+        username = findViewById(R.id.UserNameText)
 
         sharedFile = getSharedPreferences("my_sf", MODE_PRIVATE)
         editor = sharedFile.edit()
 
 
-        confirmButton.setOnClickListener{
+        signUpButton.setOnClickListener{
             Log.i("MyTag", "Storing password as ${password.text} and storing username as ${username.text}")
             editor.apply{
                 putString("storedPassword", password.text.toString())
                 putString("storedUsername", username.text.toString())
                 editor.commit()
             }
+            signUp(username.text.toString(), password.text.toString())
         }
 
+        logInButton.setOnClickListener{
+            Log.i("MyTag", "Storing password as ${password.text} and storing username as ${username.text}")
+            editor.apply{
+                putString("storedPassword", password.text.toString())
+                putString("storedUsername", username.text.toString())
+                editor.commit()
+            }
+            logIn(username.text.toString(), password.text.toString())
+        }
+
+    }
+
+    private fun logIn(email: String, password: String){
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task->
+            if (task.isSuccessful) {
+                // Sign in success, update UI with the signed-in user's information
+                Log.d("MyTag", "Log-In:success")
+                Toast.makeText(baseContext, "Log-In success",
+                    Toast.LENGTH_SHORT).show()
+                val user = mAuth.currentUser
+                val intent = Intent(this, FullscreenActivity::class.java)
+                startActivity(intent)
+            } else {
+                // If sign in fails, display a message to the user.
+                Log.w("MyTag", "Log-In With Email:failure", task.exception)
+                Toast.makeText(baseContext, "Authentication failed.",
+                    Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun signUp(email: String, password : String){
+        mAuth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d("MyTag", "createUserWithEmail:success")
+                    Toast.makeText(baseContext, "New Account Created.",
+                        Toast.LENGTH_SHORT).show()
+                    val user = mAuth.currentUser
+                    val intent = Intent(this, FullscreenActivity::class.java)
+                    intent.putExtra("user", email)
+                    intent.putExtra("password", password)
+                    startActivity(intent)
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w("MyTag", "createUserWithEmail:failure", task.exception)
+                    Toast.makeText(baseContext, "Authentication failed.",
+                        Toast.LENGTH_SHORT).show()
+                }
+            }
     }
 
     override fun onPause(){
