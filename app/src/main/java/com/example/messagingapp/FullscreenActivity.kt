@@ -37,6 +37,11 @@ class FullscreenActivity : AppCompatActivity() {
         }
     }
 
+    override fun onPause(){
+        super.onPause()
+        Log.i("MyTag", "pausing $thisName")
+    }
+
     override fun onResume(){
         super.onResume()
         Log.i("MyTag", "resuming $thisName")

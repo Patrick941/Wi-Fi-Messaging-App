@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "544594435344",
-    "project_id": "messagingapp-9a2e8",
-    "storage_bucket": "messagingapp-9a2e8.appspot.com"
+    "project_number": "388736270001",
+    "project_id": "wifimessagingapp",
+    "storage_bucket": "wifimessagingapp.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:544594435344:android:abe59c3a76625c11825995",
+        "mobilesdk_app_id": "1:388736270001:android:9af1e9a101de605eccec90",
         "android_client_info": {
           "package_name": "com.example.messagingapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "544594435344-3rrs7if8h1bajjtpodf8fictdkg1ggb2.apps.googleusercontent.com",
+          "client_id": "388736270001-8kh17u3tb515kok1ejrq8nomktdb74us.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBN8wwbRVquk4BfwE1Qbe4bZQaEuT6VwjE"
+          "current_key": "AIzaSyAYD1Aw9jZvB_-zLHiYMdjiIimckwdV69Q"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "544594435344-3rrs7if8h1bajjtpodf8fictdkg1ggb2.apps.googleusercontent.com",
+              "client_id": "388736270001-8kh17u3tb515kok1ejrq8nomktdb74us.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

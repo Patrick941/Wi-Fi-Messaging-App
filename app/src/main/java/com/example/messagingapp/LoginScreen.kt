@@ -9,6 +9,9 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+
 
 class LoginScreen : AppCompatActivity() {
 
@@ -21,8 +24,10 @@ class LoginScreen : AppCompatActivity() {
     private lateinit var password : TextView
     private lateinit var username : TextView
     private lateinit var logInButton : Button
+    private lateinit var nickname : TextView
 
     private lateinit var mAuth : FirebaseAuth
+    private lateinit var mDbRef: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +40,7 @@ class LoginScreen : AppCompatActivity() {
         logInButton = findViewById(R.id.LogInButton)
         password = findViewById(R.id.PasswordText)
         username = findViewById(R.id.UserNameText)
+        nickname = findViewById(R.id.NickNameText)
 
         sharedFile = getSharedPreferences("my_sf", MODE_PRIVATE)
         editor = sharedFile.edit()
@@ -45,9 +51,10 @@ class LoginScreen : AppCompatActivity() {
             editor.apply{
                 putString("storedPassword", password.text.toString())
                 putString("storedUsername", username.text.toString())
+                putString("storedNickname", nickname.text.toString())
                 editor.commit()
             }
-            signUp(username.text.toString(), password.text.toString())
+            signUp(username.text.toString(), password.text.toString(), nickname.text.toString())
         }
 
         logInButton.setOnClickListener{
@@ -55,6 +62,7 @@ class LoginScreen : AppCompatActivity() {
             editor.apply{
                 putString("storedPassword", password.text.toString())
                 putString("storedUsername", username.text.toString())
+                putString("storedNickname", nickname.text.toString())
                 editor.commit()
             }
             logIn(username.text.toString(), password.text.toString())
@@ -81,9 +89,10 @@ class LoginScreen : AppCompatActivity() {
         }
     }
 
-    private fun signUp(email: String, password : String){
+    private fun signUp(email: String, password : String, nick : String){
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
+                Log.i("MyTag", "email inside sign up is $email, password is $password")
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d("MyTag", "createUserWithEmail:success")
@@ -93,6 +102,7 @@ class LoginScreen : AppCompatActivity() {
                     val intent = Intent(this, ContactsActivity::class.java)
                     intent.putExtra("user", email)
                     intent.putExtra("password", password)
+                    addUserToDatabase(email, mAuth.currentUser?.uid!!, nick)
                     startActivity(intent)
                 } else {
                     // If sign in fails, display a message to the user.
@@ -101,6 +111,13 @@ class LoginScreen : AppCompatActivity() {
                         Toast.LENGTH_SHORT).show()
                 }
             }
+    }
+
+    private fun addUserToDatabase(email: String, uid: String, user : String){
+        mDbRef = FirebaseDatabase.getInstance().getReference()
+        Log.i("MyTag", "Database reference is ${mDbRef.database.reference}")
+
+        mDbRef.child("user").child(uid).setValue(User(email, uid, user))
     }
 
     override fun onPause(){
@@ -113,6 +130,7 @@ class LoginScreen : AppCompatActivity() {
         Log.i("MyTag", "resuming $thisName")
         password.text = sharedFile.getString("storedPassword", "").toString()
         username.text = sharedFile.getString("storedUsername", "").toString()
+        nickname.text = sharedFile.getString("storedNickname", "").toString()
         Log.i("MyTag", "Restored username is ${username.text}, restored password is ${password.text}")
     }
 
