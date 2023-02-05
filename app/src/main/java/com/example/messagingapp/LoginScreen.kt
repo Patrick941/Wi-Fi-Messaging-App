@@ -70,7 +70,7 @@ class LoginScreen : AppCompatActivity() {
                 Toast.makeText(baseContext, "Log-In success",
                     Toast.LENGTH_SHORT).show()
                 val user = mAuth.currentUser
-                val intent = Intent(this, FullscreenActivity::class.java)
+                val intent = Intent(this, ContactsActivity::class.java)
                 startActivity(intent)
             } else {
                 // If sign in fails, display a message to the user.
@@ -90,7 +90,7 @@ class LoginScreen : AppCompatActivity() {
                     Toast.makeText(baseContext, "New Account Created.",
                         Toast.LENGTH_SHORT).show()
                     val user = mAuth.currentUser
-                    val intent = Intent(this, FullscreenActivity::class.java)
+                    val intent = Intent(this, ContactsActivity::class.java)
                     intent.putExtra("user", email)
                     intent.putExtra("password", password)
                     startActivity(intent)
