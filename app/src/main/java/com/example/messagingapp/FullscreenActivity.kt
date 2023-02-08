@@ -5,6 +5,8 @@ import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 
 class FullscreenActivity : AppCompatActivity() {
@@ -14,6 +16,9 @@ class FullscreenActivity : AppCompatActivity() {
 
     private lateinit var receiverUser : User
     private lateinit var senderUser : User
+
+    private lateinit var messagesRecyclerView: RecyclerView
+    private lateinit var adapter: MessagesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +32,11 @@ class FullscreenActivity : AppCompatActivity() {
 
         receiverUser = intent.getSerializableExtra("ReceiverUser") as User
         senderUser = intent.getSerializableExtra("SenderUser") as User
+
+        adapter = MessagesAdapter(this)
+        messagesRecyclerView = findViewById<RecyclerView>(R.id.MessagesList)
+        messagesRecyclerView.layoutManager = LinearLayoutManager(this)
+        messagesRecyclerView.adapter = adapter
 
         //receiverUser = (intent.extras?.getSerializable("ReceiverUser") ?: null) as User
         //senderUser = (intent.extras?.getSerializable("SenderUser") ?: null) as User
